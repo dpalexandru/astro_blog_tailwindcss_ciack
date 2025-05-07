@@ -1,4 +1,18 @@
-# Astro Starter Kit: Blog
+# 🔗 Live Preview on Netlify  
+[Click here to view the project](https://iridescent-zabaione-e86507.netlify.app/)
+This is the starting point of my personal blog project, and I wanted to share it with you all.  
+
+### ✅ Features 
+
+- ✅ Search bar to quickly find content  
+- ✅ Minimal, modern design with Tailwind CSS  
+- ✅ Responsive and mobile-friendly navigation  
+- ✅ Articles page with dynamic filtering  
+- ✅ Fast loading and SEO-optimized structure  
+- ✅ Built with Astro for performance and flexibility
+
+
+# More about Astro Starter Kit: Blog
 
 ```sh
 npm create astro@latest -- --template blog

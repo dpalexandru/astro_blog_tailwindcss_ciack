@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const articles = (await getCollection('articles')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+const cleanSlug = (id: string) => id.replace(/\.mdx?$/, '');
+---
+
+<Layout title="What to Watch Today" description="The blog that helps you decide what to watch, every day.">
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-slate-900 to-indigo-900 pt-24 pb-10 text-white text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <h1 class="text-4xl font-bold mb-3">Welcome to What to Watch Today 🎬</h1>
+      <p class="text-lg mb-6">Discover curated movie and TV series recommendations for any kind of night.</p>
+      <a href="/articles" class="inline-block bg-indigo-500 hover:bg-indigo-600 px-5 py-2.5 rounded-full text-sm font-medium transition">
+        Browse Articles
+      </a>
+    </div>
+  </section>
+
+  <!-- Latest Articles + Sidebar -->
+  <main class="max-w-7xl mx-auto px-4 mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Articles Section -->
+    <section class="md:col-span-2">
+      <h2 class="text-2xl font-bold mb-6 text-slate-800 text-center">Latest Articles</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {articles.slice(0, 6).map((article) => (
+          <a
+            href={`/articles/${cleanSlug(article.id)}`}
+            class="group block overflow-hidden rounded-xl bg-white shadow-md hover:shadow-xl transition"
+          >
+            {article.data.heroImage && (
+              <div class="aspect-[16/9] overflow-hidden rounded-t-xl">
+                <img
+                  src={article.data.heroImage}
+                  alt={article.data.title}
+                  class="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            )}
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-indigo-600 mb-1">{article.data.title}</h3>
+              <p class="text-xs text-slate-400 mb-2">
+                📅 {new Date(article.data.pubDate).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </p>
+              <p class="text-slate-600 text-sm">{article.data.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Sidebar -->
+    <aside class="bg-slate-50 p-6 rounded-xl shadow">
+      <h2 class="text-xl font-bold mb-4 text-slate-800">Explore</h2>
+      <ul class="space-y-3">
+        <li><a href="/articles" class="text-indigo-600 hover:underline">All Articles</a></li>
+        <li><a href="/about" class="text-indigo-600 hover:underline">About Us</a></li>
+        <li><a href="/contact" class="text-indigo-600 hover:underline">Contact</a></li>
+      </ul>
+    </aside>
+  </main>
+</Layout>

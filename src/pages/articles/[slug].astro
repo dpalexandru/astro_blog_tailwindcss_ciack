@@ -1,0 +1,31 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BlogPost from '../../layouts/BlogPost.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('articles');
+  return posts.map((post) => {
+    const cleanSlug = post.id.replace(/\.mdx?$/, '');
+    return {
+      params: { slug: cleanSlug },
+      props: { ...post, slug: cleanSlug },
+    };
+  });
+}
+
+type Props = CollectionEntry<'articles'> & { slug: string };
+
+const post = Astro.props;
+const { Content } = await render(post);
+
+// ✅ Articoli consigliati: escluso quello attuale + ordinati per data più recente
+const allArticles = await getCollection('articles');
+const recommended = allArticles
+  .filter((a) => a.id.replace(/\.mdx?$/, '') !== post.slug)
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+  .slice(0, 3);
+---
+
+<BlogPost {...post.data} slug={post.slug} recommended={recommended} category={post.data.category}>
+  <Content />
+</BlogPost>

@@ -1,0 +1,43 @@
+---
+import Header from '../components/Header.astro';
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+
+<html lang="it">
+  <head>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Titolo dinamico -->
+    <title>{title} | AstroBlog</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/images/og-default.jpg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/images/og-default.jpg" />
+  </head>
+
+  <body class="bg-white text-gray-800 leading-relaxed">
+    <Header />
+    <slot />
+    <Footer />
+    <CookieBanner />
+  </body>
+</html>

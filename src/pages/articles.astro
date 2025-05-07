@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const cleanSlug = (id: string) => id.replace(/\.mdx?$/, '');
+
+const articles = (await getCollection('articles'))
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+---
+
+<Layout title="All Dog-Friendly Articles" description="Browse all dog-friendly travel articles from Dog City Guide. Discover parks, cafés, hotels and adventures for your pup.">
+  <section class="max-w-7xl mx-auto px-4 pt-24 pb-16">
+    <h1 class="text-3xl font-bold text-blue-700 mb-2 text-center">All Articles</h1>
+    <p class="text-center text-gray-600 text-lg mb-10">
+      Here is yours future hero zone! 
+    </p>
+
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {articles.map((article) => (
+        <a
+            href={`/articles/${cleanSlug(article.id)}`}
+            class="group block overflow-hidden rounded-lg shadow hover:shadow-lg transition bg-white"
+        >
+          {article.data.heroImage && (
+            <div class="aspect-[16/9] overflow-hidden rounded-t-lg">
+              <img
+                src={article.data.heroImage}
+                alt={article.data.title}
+                class="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+          )}
+          <div class="p-4">
+            <h2 class="text-lg font-semibold text-blue-700 mb-1">{article.data.title}</h2>
+            <p class="text-xs text-gray-400 mb-2">
+              🔔 {new Date(article.data.pubDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </p>
+            <p class="text-gray-600 text-sm">{article.data.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>

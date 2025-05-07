@@ -1,0 +1,27 @@
+<script type="module">
+  window.addEventListener('DOMContentLoaded', () => {
+    const banner = document.getElementById('cookie-banner');
+    const button = document.getElementById('accept-cookies');
+
+    if (localStorage.getItem('cookie-consent') === 'true' && banner) {
+      banner.style.display = 'none';
+    }
+
+    button?.addEventListener('click', () => {
+      localStorage.setItem('cookie-consent', 'true');
+      banner.style.display = 'none';
+    });
+  });
+</script>
+
+<div id="cookie-banner" class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 p-4 shadow z-50">
+  <div class="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-4">
+    <p class="text-sm text-gray-700">
+      Utilizziamo i cookie per analisi e pubblicità. Continuando a navigare, accetti il loro utilizzo.
+      <a href="/privacy-policy" class="underline text-blue-600 ml-1">Scopri di più</a>.
+    </p>
+    <button id="accept-cookies" class="bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700 transition" type="button">
+      Accetta
+    </button>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src/**/*.ts", "src/**/*.tsx", "src/**/*.astro", "src/components/CookieBanner.jsx"],
+  "exclude": ["dist", "src/pages/category/beaches.astro", "src/pages/category/cafe.astro", "src/pages/category/hotels.astro", "src/pages/category/parks.astro"],
+  "compilerOptions": {
+    "strictNullChecks": true
+  }
+}
